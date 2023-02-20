@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static scr_Models;
+using TMPro;
 public class scr_CharacterController : MonoBehaviour
 {
     // Start is called before the first frame update
+    
     private CharacterController characterController;
     private Default_Input defaultInput;
     public Vector2 input_Movement;
     public Vector2 input_View;
+    public int Score;
 
     private Vector3 newCameraRotation;
     private Vector3 newCharacterRotation;
@@ -25,7 +28,7 @@ public class scr_CharacterController : MonoBehaviour
     public float gravityAmount;
     public float gravityMin;
     private float playerGravity;
-
+    
     public Vector3 jumpingForce;
     private Vector3 jumpingForceVelocity;
     private void Awake() {
@@ -40,11 +43,8 @@ public class scr_CharacterController : MonoBehaviour
         newCharacterRotation = transform.localRotation.eulerAngles;
 
         characterController = GetComponent<CharacterController>();
-
-        Character_Stats.PlayerStats playerStats = new Character_Stats.PlayerStats();
-
-        playerStats.life = 10;
         
+
 
     }
 
@@ -53,8 +53,18 @@ public class scr_CharacterController : MonoBehaviour
         CalculateView();
         CalculateMovement();
         CalculateJump();
+
+       
     }
 
+     public void CountUp()
+    {
+        Score++;
+    }
+    public void Missed()
+    {
+        Score -=2;
+    }
     private void CalculateView() 
     {
         newCharacterRotation.y += playerSettings.ViewXSensitivity * (playerSettings.ViewXInverted ? -input_View.x : input_View.x) * Time.deltaTime;
